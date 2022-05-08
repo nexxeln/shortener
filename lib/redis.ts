@@ -5,6 +5,11 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 });
 
+export async function getURL(short: string): Promise<string> {
+  const res = await redis.get(`short/${short}`);
+  return String(res);
+}
+
 export async function setURL(url: string) {
   const short = getRandomString();
   await redis.set(`short/${short}`, url);
