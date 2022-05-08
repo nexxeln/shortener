@@ -6,8 +6,18 @@ const redis = new Redis({
 });
 
 export async function setURL(url: string) {
-  const short = "abcdefg"; // getShort();
+  const short = getRandomString();
   await redis.set(`short/${short}`, url);
 
   return short;
 }
+
+const getRandomString: () => string = () => {
+  const charSet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+  const randomString = [...new Array(8)]
+    .map((_) => charSet[Math.floor(Math.random() * charSet.length)])
+    .join("");
+
+  return randomString;
+};
